@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option go_package = "github.com/aloknerurkar/gopcp/core/heartbeat/pb";
+
+package protocols.heartbeat;
+
+import "core/pb/message.proto";
+
+message ServiceInfo {
+    string name     = 1;
+    string version  = 2;
+    string status   = 3;
+}
+
+message NodeInfo {
+    bytes id_bytes  = 1;
+    string status   = 2;
+    int64 updated   = 3;
+}
+
+message HeartbeatResp {
+    protocols.core.MessageData messageData = 1;
+    repeated ServiceInfo services = 2;
+    int64 updated = 3;
+}

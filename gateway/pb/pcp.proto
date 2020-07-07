@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package gopcp.gateway;
+
+import "google/api/annotations.proto";
+import "core/heartbeat/pb/heartbeat.proto";
+
+// message Metadata {
+//     string   svc_name  = 1;
+//     int32    size      = 2;
+// }
+
+// message DataBlk {
+//     bytes data = 1;
+//     int32 offset = 2;
+// }
+
+// message ProgramData {
+//     enum ContentType {
+//         RESERVED = 0;
+//         METADATA = 1;
+//         DATA = 2;
+//     }
+//     oneof Content {
+//         Metadata mtdt = 1;
+//         DataBlk data = 2;
+//     }
+// }
+
+// message ServiceInfo {
+//     string name = 1;
+//     string version = 2;
+//     string size = 3;
+//     string state = 4;
+// }
+
+// message ListResponse {
+//     repeated ServiceInfo services = 1;
+// }
+
+message EmtpyMessage {}
+
+message NodeList {
+    message Item {
+        protocols.heartbeat.NodeInfo info = 1;
+        repeated protocols.heartbeat.ServiceInfo svcs = 2;
+        int64 last_heartbeat = 3;
+    }
+    repeated Item nodes = 1;
+}
+
+service GoPcp {
+    // Return Nodes in the system
+    rpc Nodes(EmtpyMessage) returns (NodeList) {
+        option (google.api.http) = {
+            get: "/v1/nodes"
+        };
+    }
+
+    // // Install binary
+    // rpc Install(stream ProgramData) returns (Response) {}
+    // // List of services installed on a node
+    // rpc List(EmtpyMessage) returns (ListResponse) {}
+    // // List of services installed on a node
+    // rpc Start(StringMessage) returns (Response) {}
+    // // List of services installed on a node
+    // rpc Stop(StringMessage) returns (Response) {}
+    // // List of services installed on a node
+    // rpc UpdateConfig()
+    // // List of services installed on a node
+    // rpc Uninstall()
+}
